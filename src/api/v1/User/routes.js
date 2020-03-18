@@ -1,12 +1,8 @@
 const Route = require("express").Router()
 const catchError = require("../../../utils/catchErrors")
-const { register } = require("./controllers")
+const { register, login } = require("./controllers")
 
-Route.post("/login", (req, res) => {
-  res.json({
-    msg: "/login"
-  })
-})
+Route.post("/login", catchError(login))
 
 Route.post("/register", catchError(register))
 

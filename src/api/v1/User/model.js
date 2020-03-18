@@ -1,5 +1,7 @@
 const mongoose = require("mongoose")
 var uniqueValidator = require("mongoose-unique-validator")
+const bcrypt = require("bcryptjs")
+const { isEmail, isURL, isAlphanumeric } = require("validator")
 
 const UserSchema = new mongoose.Schema({
   name: {
@@ -22,20 +24,32 @@ const UserSchema = new mongoose.Schema({
     lowercase: true,
     required: [true, "Email is required"],
     minlength: [3, "Username should be atleast 3 characters long"],
-    unique: [true, "Email is already taken"]
+    unique: [true, "Email is already taken"],
+    validate: [isEmail, "Not a valid email address"]
   },
   profilePhoto: {
     type: String,
-    trim: true
+    trim: true,
+    validate: [isURL, "Please provide a valid url"]
   },
   password: {
     type: String,
     required: [true, "Password is required"],
-    minlength: [6, "Password should be atleast 6 characters long"],
-    maxlength: [50, "Password can be atmost 50 characters long"]
+    select: false
+    // minlength: [6, "Password should be atleast 6 characters long"],
+    // maxlength: [50, "Password can be atmost 50 characters long"],
+    // validate: [
+    //   isAlphanumeric,
+    //   "Only alphabet and numeric characters are supported in password"
+    // ]
   }
 })
 
-UserSchema.plugin(uniqueValidator, { message: "{PATH} to be unique." })
+UserSchema.plugin(uniqueValidator, { message: "{PATH} must be unique." })
+
+UserSchema.pre("save", async function(next) {
+  this.password = await bcrypt.hashSync(this.password)
+  next()
+})
 
 module.exports = mongoose.model("User", UserSchema)
