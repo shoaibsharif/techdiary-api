@@ -14,6 +14,12 @@ app.get("/", (req, res) => {
   })
 })
 
+app.get("/private", require("./middlewares/isAuthenticated"), (req, res) => {
+  res.json({
+    message: "this is a private route"
+  })
+})
+
 app.use("/v1", require("./api/v1/bootstrap"))
 
 app.use(require("./utils/handleErrors"))

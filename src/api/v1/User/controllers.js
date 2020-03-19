@@ -1,8 +1,22 @@
-const User = require("./model")
 const { compareSync } = require("bcryptjs")
+const joi = require("@hapi/joi")
+const jwt = require("jsonwebtoken")
+const User = require("./model")
+const registerValidationRules = require("../../../validationRules/register")
 
 module.exports.register = async (req, res) => {
   let { name, username, password, profilePhoto, email } = req.body
+
+  await registerValidationRules.validateAsync(
+    {
+      name,
+      username,
+      password,
+      profilePhoto,
+      email
+    },
+    { abortEarly: false }
+  )
 
   let user = await User.create({
     name,
@@ -39,7 +53,8 @@ module.exports.login = async (req, res) => {
   if (matched) {
     return res.json({
       message: "You have successfully loggedin",
-      user: fetchedUser
+      user: fetchedUser,
+      token: jwt.sign({ _id: fetchedUser._id }, process.env.JWT_SECRET)
     })
   }
 }
