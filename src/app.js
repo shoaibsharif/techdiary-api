@@ -3,9 +3,11 @@ require("dotenv").config()
 const express = require("express")
 const app = express()
 
+require("express-async-errors")
+
 app.use(express.urlencoded({ extended: true }))
 app.use(express.json())
-
+app.use(require("express-useragent").express())
 app.use(require("morgan")("dev"))
 
 app.get("/", (req, res) => {
@@ -16,7 +18,7 @@ app.get("/", (req, res) => {
 
 app.get("/private", require("./middlewares/isAuthenticated"), (req, res) => {
   res.json({
-    message: "this is a private route"
+    message: "success"
   })
 })
 
