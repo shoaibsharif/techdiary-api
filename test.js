@@ -24,3 +24,5 @@
 // Comment ->
 // User    -> done
 // detech client for unique token for a client
+// setup babel to project
+// add a plugij in mongoose globally

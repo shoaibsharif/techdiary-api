@@ -1,5 +1,5 @@
 const mongoose = require("mongoose")
-var uniqueValidator = require("mongoose-unique-validator")
+const uniqueValidator = require("mongoose-unique-validator")
 const bcrypt = require("bcryptjs")
 const { isEmail, isURL, isAlphanumeric } = require("validator")
 
