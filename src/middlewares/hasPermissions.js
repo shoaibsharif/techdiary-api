@@ -1,16 +1,16 @@
-const hasPermissions = permissionNeeded => {
-  return function(req, res, next) {
-    let userPermissions = req.user.permissions
-
-    const isAllowed = role => permissionNeeded.indexOf(role) > -1
-
-    res.send(matchedPermissions)
-
-    if (req.user && isAllowed(userPermissions)) next()
-    else {
-      response.status(403).json({ message: "Insufficient permission" })
+const hasPermissions = permissionNeeded =>
+  function(req, res, next) {
+    let matchedPermissions = true;
+    let permissionsTheyHave = req.user.permissions;
+    for (let i = 0; i < permissionNeeded.length; i++) {
+      if (!permissionsTheyHave.includes(permissionNeeded[i]))
+        matchedPermissions = false;
     }
-  }
-}
 
-module.exports = hasPermissions
+    if (matchedPermissions) next();
+    else {
+      res.status(403).json({ message: "Insufficient permission" });
+    }
+  };
+
+module.exports = hasPermissions;
