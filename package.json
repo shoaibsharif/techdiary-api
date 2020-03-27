@@ -1,7 +1,7 @@
 {
   "name": "techdiary-blog-api",
   "scripts": {
-    "dev": "nodemon src/server.js"
+    "dev": "nodemon --exec babel-node src/server.js"
   },
   "dependencies": {
     "@hapi/joi": "^17.1.1",
@@ -18,5 +18,14 @@
     "morgan": "^1.9.1",
     "nodemon": "^2.0.2",
     "validator": "^12.2.0"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.8.4",
+    "@babel/core": "^7.9.0",
+    "@babel/node": "^7.8.7",
+    "@babel/plugin-proposal-nullish-coalescing-operator": "^7.8.3",
+    "@babel/plugin-proposal-optional-chaining": "^7.9.0",
+    "@babel/preset-env": "^7.9.0",
+    "babel-plugin-module-resolver": "^4.0.0"
   }
 }

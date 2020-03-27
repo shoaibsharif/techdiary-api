@@ -2,7 +2,7 @@ const { compare } = require("bcryptjs");
 const joi = require("@hapi/joi");
 const jwt = require("jsonwebtoken");
 const User = require("./model");
-const Token = require("../Token/model");
+const Token = require("apisrc/Token/model");
 
 const userDefaultPermissions = require("./PERMISSIONS").userDefaultPermissions;
 
